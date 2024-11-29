@@ -41,6 +41,7 @@ ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split("
 
 DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
 print(DEVELOPMENT_MODE)
+MAILERSEND_API_KEY = os.getenv("MAILERSEND_API_KEY")
 
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -114,7 +115,7 @@ elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
         "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
     }
     
-
+    
 
 
 
