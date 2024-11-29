@@ -38,11 +38,8 @@ DEBUG = os.getenv("DEBUG", "False") == "True"
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 
 DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
+print(DEVELOPMENT_MODE)
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-
-print("DEVELOPMENT_MODE:", DEVELOPMENT_MODE)
-print("url:", DATABASE_URL)
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -100,7 +97,7 @@ WSGI_APPLICATION = 'baby_stop_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if DEVELOPMENT_MODE:
+if DEVELOPMENT_MODE is True:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -108,7 +105,11 @@ if DEVELOPMENT_MODE:
         }
     }
 else:
-    DATABASES = {'default': dj_database_url.config(default=DATABASE_URL, engine='django_cockroachdb')}
+    if os.getenv("DATABASE_URL", None) is None:
+        raise Exception("DATABASE_URL environment variable not defined")
+    DATABASES = {
+        "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
+    }
     
 
 
