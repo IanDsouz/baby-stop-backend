@@ -15,8 +15,11 @@ from django.core.management.utils import get_random_secret_key
 
 from pathlib import Path
 
-import sys
-import dj_database_url
+from dotenv import load_dotenv
+load_dotenv() 
+
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -34,6 +37,8 @@ DEBUG = os.getenv("DEBUG", "False") == "True"
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 
 DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
+
+print("DEVELOPMENT_MODE:", DEVELOPMENT_MODE)
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -91,12 +96,30 @@ WSGI_APPLICATION = 'baby_stop_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+if DEVELOPMENT_MODE:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.getenv("DB_NAME"),
+            "USER": os.getenv("DB_USER"),
+            "PASSWORD": os.getenv("DB_PASSWORD"),
+            "HOST": os.getenv("DB_HOST"),  # CockroachDB host
+            "PORT": os.getenv("DB_PORT", "26257"),
+            "OPTIONS": {
+                "sslmode": "require",  # Ensures SSL is used for secure connection
+            },
+        }
+    }
+    
+
+
 
 
 # Password validation
