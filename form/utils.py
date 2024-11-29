@@ -57,6 +57,7 @@ def send_thank_you_email(to_email):
 
     # Send the email and handle the response
     response = mailer.send(mail_body)
+    print(response)
     
     if response:
         print("Email sent successfully!")
