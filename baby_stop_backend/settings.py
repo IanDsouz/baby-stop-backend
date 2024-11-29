@@ -39,7 +39,10 @@ ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split("
 
 DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
 
+DEVELOPMENT_URL = os.getenv("DATABASE_URL")
+
 print("DEVELOPMENT_MODE:", DEVELOPMENT_MODE)
+print("url:", DEVELOPMENT_URL)
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -105,7 +108,7 @@ if DEVELOPMENT_MODE:
         }
     }
 else:
-    DATABASES = {'default': dj_database_url.config(default=os.getenv('DATABASE_URL'), engine='django_cockroachdb')}
+    DATABASES = {'default': dj_database_url.config(default=DEVELOPMENT_URL, engine='django_cockroachdb')}
     
 
 
