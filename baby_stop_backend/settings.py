@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
+import dj_database_url
 
 from django.core.management.utils import get_random_secret_key
 
@@ -104,19 +105,7 @@ if DEVELOPMENT_MODE:
         }
     }
 else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.getenv("DB_NAME"),
-            "USER": os.getenv("DB_USER"),
-            "PASSWORD": os.getenv("DB_PASSWORD"),
-            "HOST": os.getenv("DB_HOST"),  # CockroachDB host
-            "PORT": os.getenv("DB_PORT", "26257"),
-            "OPTIONS": {
-                "sslmode": "require",  # Ensures SSL is used for secure connection
-            },
-        }
-    }
+    DATABASES = {'default': dj_database_url.config(default=os.environ['DATABASE_URL'], engine='django_cockroachdb')}
     
 
 
