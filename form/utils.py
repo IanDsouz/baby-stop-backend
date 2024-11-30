@@ -11,7 +11,7 @@ def send_thank_you_email(to_email):
     # Define the email from and to details
     mail_from = {
         "name": "Baby Stop",
-        "email": "MS_YsARRC@trial-x2p0347675kgzdrn.mlsender.net",
+        "email": "info@babystopform.co.uk",
     }
 
     recipients = [
