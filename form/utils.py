@@ -1,35 +1,16 @@
 import os
-from mailersend import emails
+from postmarker.core import PostmarkClient
 from dotenv import load_dotenv
 
 load_dotenv()
 
 def send_thank_you_email(to_email):
-    # Initialize the MailerSend client
-    mailer = emails.NewEmail(os.getenv('MAILERSEND_API_KEY'))
+    # Initialize the Postmark client
+    postmark = PostmarkClient(server_token=os.getenv('POSTMARK_SERVER_TOKEN'))
 
-    # Define the email from and to details
-    mail_from = {
-        "name": "Baby Stop",
-        "email": "info@babystopform.co.uk",
-    }
-
-    recipients = [
-        {
-            "name": "Recipient",  # You can modify this based on the user
-            "email": to_email,
-        }
-    ]
-
-    # Define email content (plain text and HTML)
-    mail_body = {}
-
-    # Set mail details
-    mailer.set_mail_from(mail_from, mail_body)
-    mailer.set_mail_to(recipients, mail_body)
-    mailer.set_subject("Thank You for Visiting Baby Stop!", mail_body)
-
-    # HTML content with logo and professional styling
+    # Define the email details
+    sender_email = "info@babystopform.co.uk"
+    subject = "Thank You for Visiting Baby Stop!"
     html_content = """
     <html>
         <body style="font-family: Arial, sans-serif; margin: 0; padding: 0;">
@@ -51,17 +32,19 @@ def send_thank_you_email(to_email):
         </body>
     </html>
     """
+    text_content = "Thanks for submitting your details to Baby Stop. We appreciate your visit!"
 
-    mailer.set_html_content(html_content, mail_body)
-    mailer.set_plaintext_content("Thanks for submitting your details to Baby Stop. We appreciate your visit!", mail_body)
-
-    # Send the email and handle the response
-    response = mailer.send(mail_body)
-    print(response)
-    
-    if response:
-        print("Email sent successfully!")
+    try:
+        # Send the email
+        response = postmark.emails.send(
+            From=sender_email,
+            To=to_email,
+            Subject=subject,
+            HtmlBody=html_content,
+            TextBody=text_content
+        )
+        print("Email sent successfully:", response)
         return True
-    else:
-        print(f"Error sending email: {response}")
+    except Exception as e:
+        print(f"Error sending email: {e}")
         return False
