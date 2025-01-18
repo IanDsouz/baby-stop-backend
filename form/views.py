@@ -21,7 +21,7 @@ class SubmissionViewSet(viewsets.ModelViewSet):
         to_email = submission_data.get("email")  # Assuming the 'email' field is in the serializer
 
         # Send the thank you email
-        if to_email and DEVELOPMENT_MODE is not True:
+        if to_email:
             send_thank_you_email(to_email)
 
         return response
