@@ -47,7 +47,7 @@ MAILERSEND_API_KEY = os.getenv("MAILERSEND_API_KEY")
 CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3001",
+    "http://localhost:3004",
 ]
 
 
