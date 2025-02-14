@@ -25,7 +25,7 @@ def send_thank_you_email(to_email):
                     Baby Stop holds no liability for the product’s safety. Please dispose of any unsuitable items at your local recycling depot.
                 </p>
                 <footer style="font-size: 12px; color: #777; margin-top: 20px;">
-                    <p>If you have any questions, feel free to contact us at <a href="mailto:support@babystop.com">support@babystop.com</a></p>
+                    <p>If you have any questions, feel free to contact us at <a href="mailto:team@babystop.uk">team@babystop.uk</a></p>
                     <p>&copy; 2024 Baby Stop. All rights reserved.</p>
                 </footer>
             </div>
