@@ -4,6 +4,8 @@ from .serializers import SubmissionSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from .utils import send_thank_you_email
+from django.utils import timezone
+from datetime import datetime, time
 import os
 
 DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
@@ -24,8 +26,15 @@ class SubmissionViewSet(viewsets.ModelViewSet):
         return response
     
     def get_queryset(self):
-        # Order submissions by most recent first
-        return Submission.objects.all().order_by('-date_submitted')
+        # Only return submissions from today
+        today = timezone.now().date()
+        today_start = timezone.make_aware(datetime.combine(today, time.min))
+        today_end = timezone.make_aware(datetime.combine(today, time.max))
+        
+        return Submission.objects.filter(
+            date_submitted__gte=today_start,
+            date_submitted__lte=today_end
+        ).order_by('-date_submitted')
     
 
     @action(detail=True, methods=['POST'])

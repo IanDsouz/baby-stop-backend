@@ -26,7 +26,7 @@ def send_thank_you_email(to_email):
                 </p>
                 <footer style="font-size: 12px; color: #777; margin-top: 20px;">
                     <p>If you have any questions, feel free to contact us at <a href="mailto:team@babystop.uk">team@babystop.uk</a></p>
-                    <p>&copy; 2024 Baby Stop. All rights reserved.</p>
+                    <p>&copy; 2026 Baby Stop. All rights reserved.</p>
                 </footer>
             </div>
         </body>
